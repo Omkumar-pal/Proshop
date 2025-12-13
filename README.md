@@ -279,14 +279,6 @@ This application can also be deployed to:
 - **DigitalOcean** (VPS)
 - **AWS EC2** (VPS)
 
-## 📸 Screenshots
-
-*(Add your application screenshots here)*
-
-```
-Home Page | Product Details | Shopping Cart | Checkout
-```
-
 ## 📚 Learning Outcomes
 
 Building this project provided hands-on experience with:
