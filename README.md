@@ -1,4 +1,4 @@
-ProShop – Full-Stack E-Commerce Platform (MERN)
+1. Full-Stack E-Commerce Platform (MERN)
 
 ProShop is a full-stack e-commerce web application built using the MERN stack.
 It supports complete customer and admin workflows, including authentication, product management, order processing, and online payments.
