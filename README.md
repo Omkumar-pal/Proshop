@@ -6,63 +6,63 @@ It supports complete customer and admin workflows, including authentication, pro
 This project was built to gain real-world experience in backend development, RESTful APIs, authentication, and deployment.
 
 2. Features
-2.1 User Features
+  2.1 User Features
 
-1 User registration and login using JWT authentication
+   1 User registration and login using JWT authentication
 
-2 Browse products with detailed views
+   2 Browse products with detailed views
 
-3 Add products to cart
+   3 Add products to cart
 
-4 Checkout and place orders
+   4 Checkout and place orders
 
-5 Pay securely using PayPal
+   5 Pay securely using PayPal
 
-6 View order history and order status
+   6 View order history and order status
 
-2.2 Admin Features
+ 2.2 Admin Features
 
-1 Admin authentication with role-based access
+  1 Admin authentication with role-based access
 
-2 Create, update, and delete products
+  2 Create, update, and delete products
 
-3 Manage users
+  3 Manage users
 
-4 View and update orders
+  4 View and update orders
 
-5 Mark orders as delivered
+  5 Mark orders as delivered
 
 3. Tech Stack
-3.1 Frontend
+   
+   3.1 Frontend
+    1 React.js (Hooks, Functional Components)
 
-1 React.js (Hooks, Functional Components)
+    2 Redux
 
-2 Redux
+    3 HTML, CSS
 
-3 HTML, CSS
+   3.2 Backend
 
-4 3.2 Backend
+    1 Node.js
 
-5 Node.js
+    2 Express.js
 
-6 Express.js
+    3 RESTful APIs
 
-7 RESTful APIs
-
-8 JWT Authentication
+    4 JWT Authentication
 
 3.3 Database
 
-1 MongoDB (Mongoose)
+  1 MongoDB (Mongoose)
 
 3.4 Payments
 
-1 PayPal API
+  1 PayPal API
 
 3.5 Tools & Deployment
 
-1 Git & GitHub
+  1 Git & GitHub
 
-2 Postman (API testing)
+  2 Postman (API testing)
 
-3 Heroku (Deployment)
+  3 Heroku (Deployment)
