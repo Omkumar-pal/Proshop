@@ -6,6 +6,7 @@ It supports complete customer and admin workflows, including authentication, pro
 This project was built to gain real-world experience in backend development, RESTful APIs, authentication, and deployment.
 
 2. Features
+   
   2.1 User Features
 
    1 User registration and login using JWT authentication
