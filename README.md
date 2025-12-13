@@ -1,68 +1,68 @@
-ProShop – Full-Stack E-Commerce Platform (MERN)
+1. ProShop – Full-Stack E-Commerce Platform (MERN)
 
 ProShop is a full-stack e-commerce web application built using the MERN stack.
 It supports complete customer and admin workflows, including authentication, product management, order processing, and online payments.
 
 This project was built to gain real-world experience in backend development, RESTful APIs, authentication, and deployment.
 
-🚀 Features
-User Features
+2. Features
+2.1 User Features
 
-User registration and login (JWT authentication)
+1 User registration and login using JWT authentication
 
-Browse products with details
+2 Browse products with detailed views
 
-Add products to cart
+3 Add products to cart
 
-Checkout and place orders
+4 Checkout and place orders
 
-Pay using PayPal
+5 Pay securely using PayPal
 
-View order history and order status
+6 View order history and order status
 
-Admin Features
+2.2 Admin Features
 
-Admin authentication and role-based access
+1 Admin authentication with role-based access
 
-Create, update, and delete products
+2 Create, update, and delete products
 
-Manage users
+3 Manage users
 
-View and update orders
+4 View and update orders
 
-Mark orders as delivered
+5 Mark orders as delivered
 
-🛠 Tech Stack
-Frontend
+3. Tech Stack
+3.1 Frontend
 
-React.js (Hooks, Functional Components)
+1 React.js (Hooks, Functional Components)
 
-Redux
+2 Redux
 
-HTML, CSS
+3 HTML, CSS
 
-Backend
+4 3.2 Backend
 
-Node.js
+5 Node.js
 
-Express.js
+6 Express.js
 
-RESTful APIs
+7 RESTful APIs
 
-JWT Authentication
+8 JWT Authentication
 
-Database
+3.3 Database
 
-MongoDB (Mongoose)
+1 MongoDB (Mongoose)
 
-Payments
+3.4 Payments
 
-PayPal API
+1 PayPal API
 
-Tools & Deployment
+3.5 Tools & Deployment
 
-Git & GitHub
+1 Git & GitHub
 
-Postman (API testing)
+2 Postman (API testing)
 
-Heroku (Deployment)
+3 Heroku (Deployment)
