@@ -71,7 +71,11 @@ const ProductScreen = () => {
 
       <Row>
         <Col md={6}>
-          <Image src={product?.image} alt={product?.name} fluid />
+          <Image
+            src={`/api/products/${product?._id}/image`}
+            alt={product?.name}
+            fluid
+          />
         </Col>
 
         <Col md={3}>

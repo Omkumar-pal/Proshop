@@ -14,7 +14,8 @@ const ProductEditScreen = () => {
   const { id: productId } = useParams();
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null); // { data, contentType } or null if unchanged
+  const [imagePreview, setImagePreview] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
@@ -34,30 +35,27 @@ const ProductEditScreen = () => {
     success: successUpdate,
   } = productUpdate;
 
-  // 1) Clear previous update flag on mount
   useEffect(() => {
     dispatch({ type: PRODUCT_UPDATE_RESET });
   }, [dispatch]);
 
-  // 2) Always fetch fresh details on mount (robust)
   useEffect(() => {
     dispatch(listProductDetails(productId));
   }, [dispatch, productId]);
 
-  // 3) When product changes populate fields
   useEffect(() => {
     if (product && product._id === productId) {
       setName(product.name || "");
       setPrice(product.price ?? 0);
-      setImage(product.image || "");
       setBrand(product.brand || "");
       setCategory(product.category || "");
       setDescription(product.description || "");
       setCountInStock(product.countInStock ?? 0);
+      // Show the existing stored image via the serving endpoint
+      setImagePreview(`/api/products/${productId}/image`);
     }
   }, [product, productId]);
 
-  // 4) After successful update go back to product list
   useEffect(() => {
     if (successUpdate) {
       navigate("/admin/productlist");
@@ -66,6 +64,8 @@ const ProductEditScreen = () => {
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     const formData = new FormData();
     formData.append("image", file);
     setUploading(true);
@@ -77,7 +77,9 @@ const ProductEditScreen = () => {
         },
       };
       const { data } = await axios.post("/api/upload", formData, config);
+      // data = { data: base64String, contentType: "image/jpeg" }
       setImage(data);
+      setImagePreview(`data:${data.contentType};base64,${data.data}`);
       setUploading(false);
     } catch (error) {
       console.error(error);
@@ -87,18 +89,24 @@ const ProductEditScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateProduct({
-        _id: productId,
-        name,
-        price,
-        image,
-        brand,
-        category,
-        description,
-        countInStock,
-      })
-    );
+
+    const payload = {
+      _id: productId,
+      name,
+      price,
+      brand,
+      category,
+      description,
+      countInStock,
+    };
+
+    // Only include image in the payload if a new one was uploaded —
+    // otherwise the backend keeps the existing stored image untouched
+    if (image) {
+      payload.image = image;
+    }
+
+    dispatch(updateProduct(payload));
   };
 
   return (
@@ -140,15 +148,18 @@ const ProductEditScreen = () => {
             </Form.Group>
 
             <Form.Group controlId="image" className="mb-3">
-              <Form.Label>Image URL</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter image url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              />
+              <Form.Label>Product Image</Form.Label>
 
-              <Form.Label className="mt-2">Choose File</Form.Label>
+              {imagePreview && (
+                <div className="mb-2">
+                  <img
+                    src={imagePreview}
+                    alt="Product preview"
+                    style={{ maxWidth: "200px", display: "block" }}
+                  />
+                </div>
+              )}
+
               <Form.Control
                 type="file"
                 id="image-file"
