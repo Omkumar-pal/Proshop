@@ -13,7 +13,7 @@ const reviewSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const productSchema = mongoose.Schema(
@@ -29,8 +29,8 @@ const productSchema = mongoose.Schema(
       required: true,
     },
     image: {
-      type: String,
-      required: true,
+      data: Buffer,
+      contentType: String,
     },
     brand: {
       type: String,
@@ -68,10 +68,14 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    embedding: {
+      type: [Number],
+      select: false,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Product = mongoose.model("Product", productSchema);

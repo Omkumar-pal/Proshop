@@ -1,5 +1,9 @@
 import asyncHandler from "express-async-handler";
 import Products from "../models/productModel.js";
+import {
+  generateEmbedding,
+  buildProductText,
+} from "../utilities/embeddings.js";
 
 // @desc fetch all products
 // @route GET /api/products
@@ -7,16 +11,45 @@ import Products from "../models/productModel.js";
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const keyword = req.query.keyword
-    ? { name: { $regex: req.query.keyword, $options: "i" } }
+  const keyword = req.query.keyword ? req.query.keyword.trim() : "";
+
+  const keywordFilter = keyword
+    ? { name: { $regex: keyword, $options: "i" } }
     : {};
-  const count = await Products.countDocuments({ ...keyword });
-  const products = await Products.find({ ...keyword })
+
+  const count = await Products.countDocuments({ ...keywordFilter });
+  let products = await Products.find({ ...keywordFilter })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
+
+  // If a keyword was given but exact/regex match found nothing,
+  // fall back to semantic search so the user still gets relevant results
+  if (keyword && products.length === 0) {
+    const queryEmbedding = await generateEmbedding(keyword);
+
+    products = await Products.aggregate([
+      {
+        $vectorSearch: {
+          index: "vector_index",
+          path: "embedding",
+          queryVector: queryEmbedding,
+          numCandidates: 100,
+          limit: pageSize,
+        },
+      },
+      {
+        $project: {
+          embedding: 0,
+          score: { $meta: "vectorSearchScore" },
+        },
+      },
+    ]);
+
+    return res.json({ products, page: 1, pages: 1 });
+  }
+
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
-
 // @desc fetch single product
 // @route GET /api/products/:id
 // @access public
@@ -48,7 +81,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @route POST /api/products
 // @access Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
-  const product = new Products({
+  const productData = {
     name: "Sample name",
     price: 0,
     user: req.user._id,
@@ -58,8 +91,13 @@ const createProduct = asyncHandler(async (req, res) => {
     countInStock: 0,
     numReviews: 0,
     description: "Sample description",
-  });
+  };
 
+  productData.embedding = await generateEmbedding(
+    buildProductText(productData),
+  );
+
+  const product = new Products(productData);
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
 });
@@ -75,10 +113,17 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.name = name;
     product.price = price;
     product.description = description;
-    product.image = image;
+    if (image && image.data) {
+      product.image = {
+        data: Buffer.from(image.data, "base64"),
+        contentType: image.contentType,
+      };
+    }
     product.brand = brand;
     product.countInStock = countInStock;
     product.category = category;
+
+    product.embedding = await generateEmbedding(buildProductText(product));
 
     const updatedProduct = await product.save();
     res.json(updatedProduct);
@@ -97,7 +142,7 @@ const createProductReview = asyncHandler(async (req, res) => {
   const product = await Products.findById(req.params.id);
   if (product) {
     const alreadyReviewed = product.reviews.find(
-      (r) => r.user.toString() === req.user._id.toString()
+      (r) => r.user.toString() === req.user._id.toString(),
     );
     if (alreadyReviewed) {
       res.status(400);
@@ -133,6 +178,55 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
+// @desc  Semantic search for products using vector similarity
+// @route POST /api/products/semantic-search
+// @access Public
+const semanticSearchProducts = asyncHandler(async (req, res) => {
+  const { query, limit = 8 } = req.body;
+
+  if (!query || !query.trim()) {
+    res.status(400);
+    throw new Error("Search query is required");
+  }
+
+  const queryEmbedding = await generateEmbedding(query);
+
+  const results = await Products.aggregate([
+    {
+      $vectorSearch: {
+        index: "vector_index",
+        path: "embedding",
+        queryVector: queryEmbedding,
+        numCandidates: 100,
+        limit: Number(limit),
+      },
+    },
+    {
+      $project: {
+        embedding: 0,
+        score: { $meta: "vectorSearchScore" },
+      },
+    },
+  ]);
+
+  res.json({ products: results });
+});
+
+// @desc  Serve a product's image from MongoDB
+// @route GET /api/products/:id/image
+// @access Public
+const getProductImage = asyncHandler(async (req, res) => {
+  const product = await Products.findById(req.params.id).select("image");
+
+  if (!product || !product.image || !product.image.data) {
+    res.status(404);
+    throw new Error("Image not found");
+  }
+
+  res.set("Content-Type", product.image.contentType);
+  res.send(product.image.data);
+});
+
 export {
   getProducts,
   getProductById,
@@ -141,4 +235,6 @@ export {
   updateProduct,
   createProductReview,
   getTopProducts,
+  semanticSearchProducts,
+  getProductImage,
 };

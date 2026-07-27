@@ -18,6 +18,7 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
+import ChatWidget from "./components/ChatWidget";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
           </Routes>
         </Container>
       </main>
+      <ChatWidget />
       <Footer />
     </Router>
   );
