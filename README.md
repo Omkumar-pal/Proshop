@@ -247,16 +247,36 @@ Password: 123456
 ### Using Semantic Search
 Just use the normal search bar. If your search term doesn't exactly match a product name, the backend automatically falls back to AI-powered semantic search — try phrases like *"good for taking photos"* or *"smart home assistant"* instead of exact product names.
 
-### 💳 Making a Test Sandbox Payment
-When checking out in Sandbox Demo mode:
-1. Complete the Shipping & Payment method steps and click **Place Order**.
-2. On the Order summary page, click **"Debit or Credit Card"** under the PayPal buttons.
-3. Use the following test card details:
-   - **Card Number**: `4035 7700 0000 0002` (or `4111 1111 1111 1111`)
-   - **Expires**: Any future date (e.g., `12/29`)
-   - **CVV**: `123`
-   - **Postal Code**: `90210`
-4. Enter any test name and billing address, then click **Pay Now** to complete the payment instantly.
+### 💳 How to Make a Test Payment (PayPal Sandbox)
+
+To test the payment system without spending real money, use a **PayPal Developer Sandbox Buyer Account**:
+
+#### Step 1: Get Your Sandbox Account Details
+1. Go to **[developer.paypal.com](https://developer.paypal.com)** and log in with your PayPal account.
+2. In the dashboard sidebar, navigate to **Testing Tools** $\rightarrow$ **Sandbox Accounts**.
+3. Locate your pre-generated **Personal (Buyer)** account (e.g. `sb-xxxxxx@personal.example.com`).
+4. Click the three dots (`...`) next to the account $\rightarrow$ **View / Edit Account**.
+
+Here you will find all required test credentials:
+- **Profile Tab**: Shows your test **Buyer Email** and **System-Generated Password**.
+- **Funding Tab**: Shows your test **Credit / Debit Card Number**, **Expiration Date**, **CVV**, and simulated **PayPal Balance** ($5,000.00).
+- **Personal Information Tab**: Shows your test **Name**, **Street Address**, **City**, **State**, **ZIP Code**, and **Phone Number**.
+
+#### Step 2: Make the Payment in ProShop
+You can pay using either of the following two methods:
+
+* **Method A: Pay with PayPal Account (Fastest)**:
+  1. Click the yellow **PayPal** button on the Order screen.
+  2. In the popup window, log in using the **Buyer Email** and **Password** from Step 1.
+  3. Click **Complete Purchase** to pay with the sandbox balance.
+
+* **Method B: Pay with Sandbox Debit / Credit Card**:
+  1. Click the **"Debit or Credit Card"** button on the Order screen.
+  2. Enter the **Card Number**, **Expiration Date**, and **CVV** from your account's **Funding** tab.
+  3. Enter the test **Name**, **Billing Address**, and **ZIP Code** from the **Personal Information** tab.
+  4. Click **Pay Now** to process the transaction.
+
+Once completed, the order status will immediately update to **Paid** with the verified payment timestamp!
 
 ### Using the Order Support Chatbot
 1. Log in as any user with at least one order on their account.
