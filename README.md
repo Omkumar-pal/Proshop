@@ -4,7 +4,7 @@ A full-featured eCommerce platform built from scratch using the MERN stack (Mong
 
 ## 🌐 Live Demo
 
-**[View Live Application](https://proshopapp1538-a6d2a1d5e767.herokuapp.com/)**
+**[View Live Application](https://proshop-rijx.onrender.com)**
 
 ## 📋 Table of Contents
 
