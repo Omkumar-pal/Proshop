@@ -225,7 +225,11 @@ const OrderScreen = () => {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={item.image}
+                            src={
+                              typeof item.image === "string"
+                                ? item.image
+                                : `/api/products/${item.product}/image`
+                            }
                             alt={item.name}
                             fluid
                             rounded

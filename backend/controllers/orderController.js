@@ -20,8 +20,16 @@ const addOrderItems = asyncHandler(async (req, res) => {
     throw new Error("No order Items");
     return;
   } else {
+    const sanitizedOrderItems = orderItems.map((item) => ({
+      ...item,
+      image:
+        typeof item.image === "string"
+          ? item.image
+          : `/api/products/${item.product}/image`,
+    }));
+
     const order = new Order({
-      orderItems,
+      orderItems: sanitizedOrderItems,
       user: req.user._id,
       shippingAddress,
       paymentMethod,
