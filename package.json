@@ -9,10 +9,14 @@
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\" ",
+    "build": "npm install --prefix frontend && npm run build --prefix frontend",
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d",
     "embeddings:backfill": "node backend/utilities/backfillEmbeddings.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "author": "Om kumar pal",
   "license": "MIT",

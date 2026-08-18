@@ -13,7 +13,7 @@ import {
   Card,
 } from "react-bootstrap";
 
-const CartScreen = ({}) => {
+const CartScreen = () => {
   const { id: productId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
