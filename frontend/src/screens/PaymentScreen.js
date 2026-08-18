@@ -54,6 +54,18 @@ const PaymentScreen = () => {
           </Col>
         </Form.Group>
 
+        <div className="alert alert-info py-2 px-3 my-3" style={{ fontSize: "0.85rem" }}>
+          <i className="fas fa-info-circle me-1"></i> <strong>Testing in Sandbox?</strong> Get test buyer credentials from the{" "}
+          <a
+            href="https://developer.paypal.com/dashboard/accounts"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fw-bold"
+          >
+            PayPal Developer Dashboard ↗
+          </a>
+        </div>
+
         <Button type="submit" variant="primary">
           Continue
         </Button>

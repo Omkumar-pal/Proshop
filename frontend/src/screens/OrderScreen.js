@@ -291,6 +291,39 @@ const OrderScreen = () => {
 
               {!order.isPaid && (
                 <ListGroup.Item>
+                  <div
+                    style={{
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #dee2e6",
+                      borderRadius: "8px",
+                      padding: "12px",
+                      fontSize: "0.85rem",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <div className="d-flex align-items-center justify-content-between mb-1">
+                      <strong className="text-primary">
+                        <i className="fab fa-paypal me-1"></i> PayPal Sandbox Mode
+                      </strong>
+                      <span className="badge bg-warning text-dark">Test Mode</span>
+                    </div>
+                    <p className="mb-2 text-muted" style={{ lineHeight: "1.3" }}>
+                      To complete test payment, get your sandbox buyer account or card details from PayPal Developer:
+                    </p>
+                    <a
+                      href="https://developer.paypal.com/dashboard/accounts"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-primary btn-sm w-100 mb-2 fw-bold"
+                      style={{ fontSize: "0.82rem" }}
+                    >
+                      <i className="fas fa-external-link-alt me-1"></i> Open PayPal Sandbox Accounts ↗
+                    </a>
+                    <div className="text-muted" style={{ fontSize: "0.78rem", lineHeight: "1.3" }}>
+                      👉 View your <strong>Personal (Buyer)</strong> account to find your test Email, Password, Card number, and address.
+                    </div>
+                  </div>
+
                   {loadingPay || !sdkReady ? (
                     <Loader />
                   ) : (
