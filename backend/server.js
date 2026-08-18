@@ -27,6 +27,10 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/chat", chatRoutes);
 
+app.get("/api/health", (req, res) =>
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() }),
+);
+
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID),
 );
