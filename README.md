@@ -247,6 +247,17 @@ Password: 123456
 ### Using Semantic Search
 Just use the normal search bar. If your search term doesn't exactly match a product name, the backend automatically falls back to AI-powered semantic search — try phrases like *"good for taking photos"* or *"smart home assistant"* instead of exact product names.
 
+### 💳 Making a Test Sandbox Payment
+When checking out in Sandbox Demo mode:
+1. Complete the Shipping & Payment method steps and click **Place Order**.
+2. On the Order summary page, click **"Debit or Credit Card"** under the PayPal buttons.
+3. Use the following test card details:
+   - **Card Number**: `4035 7700 0000 0002` (or `4111 1111 1111 1111`)
+   - **Expires**: Any future date (e.g., `12/29`)
+   - **CVV**: `123`
+   - **Postal Code**: `90210`
+4. Enter any test name and billing address, then click **Pay Now** to complete the payment instantly.
+
 ### Using the Order Support Chatbot
 1. Log in as any user with at least one order on their account.
 2. Click the 💬 button in the bottom-right corner (visible on every page once logged in).

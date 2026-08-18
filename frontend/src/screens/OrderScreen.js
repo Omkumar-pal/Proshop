@@ -19,9 +19,18 @@ import {
 
 const OrderScreen = () => {
   const [sdkReady, setSdkReady] = useState(false);
+  const [copiedCard, setCopiedCard] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id: orderId } = useParams();
+
+  const handleCopyCard = (cardNum) => {
+    if (navigator && navigator.clipboard) {
+      navigator.clipboard.writeText(cardNum);
+      setCopiedCard(true);
+      setTimeout(() => setCopiedCard(false), 2000);
+    }
+  };
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
@@ -291,6 +300,48 @@ const OrderScreen = () => {
 
               {!order.isPaid && (
                 <ListGroup.Item>
+                  <div
+                    style={{
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #dee2e6",
+                      borderRadius: "8px",
+                      padding: "12px",
+                      fontSize: "0.85rem",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <div className="d-flex align-items-center justify-content-between mb-2">
+                      <strong className="text-primary">
+                        <i className="fas fa-credit-card me-1"></i> Sandbox Demo Cards
+                      </strong>
+                      <span className="badge bg-warning text-dark">Test Mode</span>
+                    </div>
+                    <p className="mb-2 text-muted" style={{ lineHeight: "1.3" }}>
+                      Click <strong>"Debit or Credit Card"</strong> below and use this card to test:
+                    </p>
+                    <div
+                      className="p-2 mb-2 bg-white rounded border d-flex justify-content-between align-items-center"
+                      style={{ fontFamily: "monospace", fontSize: "0.88rem" }}
+                    >
+                      <div>
+                        <strong>Visa:</strong> 4035 7700 0000 0002
+                      </div>
+                      <Button
+                        variant={copiedCard ? "success" : "outline-secondary"}
+                        size="sm"
+                        style={{ fontSize: "0.75rem", padding: "2px 8px" }}
+                        onClick={() => handleCopyCard("4035770000000002")}
+                      >
+                        {copiedCard ? "✓ Copied" : "Copy"}
+                      </Button>
+                    </div>
+                    <div className="d-flex justify-content-between text-muted" style={{ fontSize: "0.8rem" }}>
+                      <span><strong>Exp:</strong> 12/29</span>
+                      <span><strong>CVV:</strong> 123</span>
+                      <span><strong>ZIP:</strong> 90210</span>
+                    </div>
+                  </div>
+
                   {loadingPay || !sdkReady ? (
                     <Loader />
                   ) : (
