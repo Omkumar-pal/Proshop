@@ -13,10 +13,12 @@ jobs:
       - name: Send Keep-Alive Ping
         run: |
           echo "Pinging ProShop Render instance..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 60 https://proshop-rijx.onrender.com/api/health)
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 30 https://proshop-rijx.onrender.com/api/health 2>/dev/null || echo "000")
           echo "Response HTTP Status: $HTTP_STATUS"
           if [ "$HTTP_STATUS" -eq 200 ]; then
             echo "✅ Server is active and responded with 200 OK"
+          elif [ "$HTTP_STATUS" -eq 000 ]; then
+            echo "⚠️ Server timed out or is waking up from sleep mode"
           else
-            echo "⚠️ Server returned status $HTTP_STATUS or is waking up"
+            echo "⚠️ Server returned status $HTTP_STATUS"
           fi
